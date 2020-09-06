@@ -32,18 +32,18 @@ catalog.
 * Please open file **application.integration.properties** locate in **/src/main/resources**
 * Edit the next values:
 ```batch
-spring.datasource.url=jdbc:postgresql://192.168.2.12:5432/postgres?currentSchema=cafeto_challenge_janez
-spring.datasource.username=postgres
-spring.datasource.password=Usrdev2020*-
+spring.datasource.url=jdbc:mysql://192.168.2.12:3306/ml?useSSL=true
+spring.datasource.username=root
+spring.datasource.password=Benqgforce*09-
 ```
 
 ### Live Environment
 * Please open file **application.properties** locate in **/src/main/resources**
 * Edit the next values:
 ```batch
-spring.datasource.url=jdbc:postgresql://192.168.2.12:5432/postgres?currentSchema=cafeto_challenge_janez
-spring.datasource.username=postgres
-spring.datasource.password=Usrdev2020*-
+spring.datasource.url=jdbc:mysql://192.168.2.12:3306/ml?useSSL=true
+spring.datasource.username=root
+spring.datasource.password=Benqgforce*09-
 ```
 
 ## Run
