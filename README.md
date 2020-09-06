@@ -1,4 +1,4 @@
-# Nephrologists
+# Mercado Libre - Challenge
 ![Java CI with Maven](https://github.com/cafetochallengeusr09/nephrologists-back/workflows/Java%20CI%20with%20Maven/badge.svg)
 [![CodeFactor](https://www.codefactor.io/repository/github/cafetochallengeusr09/nephrologists-back/badge)](https://www.codefactor.io/repository/github/cafetochallengeusr09/nephrologists-back)
 
@@ -55,6 +55,25 @@ spring.datasource.password=Usrdev2020*-
 mvn spring-boot:run
 ```
 
+### Reponse JSON
+```batch
+➜  ~ curl -X GET 'http://localhost:9595/items/MLU460998489'
+{
+   "item_id":"MLU460998489",
+   "title":"Google Pixel 32gb Silver - Impecable!",
+   "category_id":"MLU1055",
+   "price":350.00,
+   "start_time":"2019-03-02T20:31:02.000+0000",
+   "stop_time":"2019-10-25T23:28:35.000+0000",
+   "children":[
+      {
+         "item_id":"MLU468887129",
+         "stop_time":"2020-04-25T22:10:52.000+0000"
+      }
+   ]
+}
+```   
+
 ## Unit Test
 ### Run All Test
 ```batch
@@ -96,144 +115,58 @@ Hibernate:
 ```
 ## Project Folder Structure
 ```shell
-➜  src git:(master) tree 
+➜  src git:(master) ✗ tree
 .
 ├── main
 │   ├── java
 │   │   └── com
-│   │       └── cafeto
-│   │           └── challenge
-│   │               ├── api
-│   │               │   ├── commons
-│   │               │   │   ├── Constants.java
-│   │               │   │   ├── ControllerBase.java
-│   │               │   │   ├── ResponseBase.java
-│   │               │   │   └── ServiceBase.java
-│   │               │   └── security
-│   │               │       ├── controller
-│   │               │       │   └── AuthController.java
-│   │               │       ├── filters
-│   │               │       │   ├── JwtAuthenticationEntryPoint.java
-│   │               │       │   └── JwtRequestFilter.java
-│   │               │       ├── helper
-│   │               │       │   ├── AESCipher.java
-│   │               │       │   ├── DefaultAESCipher.java
-│   │               │       │   ├── DefaultSecretKeyProvider.java
-│   │               │       │   ├── SecretKeyProvider.java
-│   │               │       │   └── SecurityConstants.java
-│   │               │       ├── model
-│   │               │       │   └── JwtResponse.java
-│   │               │       ├── service
-│   │               │       │   ├── CipherService.java
-│   │               │       │   ├── JwtTokenHelper.java
-│   │               │       │   └── JwtUserDetailsService.java
-│   │               │       └── WebSecurityConfig.java
-│   │               ├── CafetoChallengeApplication.java
-│   │               ├── city
-│   │               │   ├── controller
-│   │               │   │   └── CityController.java
-│   │               │   ├── model
-│   │               │   │   └── City.java
-│   │               │   ├── repository
-│   │               │   │   └── CityRepository.java
-│   │               │   └── service
-│   │               │       ├── CityServiceHandler.java
-│   │               │       └── CityService.java
-│   │               ├── clinic
-│   │               │   ├── controller
-│   │               │   │   └── ClinicController.java
-│   │               │   ├── model
-│   │               │   │   └── Clinic.java
-│   │               │   ├── repository
-│   │               │   │   └── ClinicRepository.java
-│   │               │   └── service
-│   │               │       ├── ClinicServiceHandler.java
-│   │               │       └── ClinicService.java
-│   │               ├── clinicType
-│   │               │   ├── controller
-│   │               │   │   └── ClinicTypeController.java
-│   │               │   ├── model
-│   │               │   │   └── ClinicType.java
-│   │               │   ├── repository
-│   │               │   │   └── ClinicTypeRepository.java
-│   │               │   └── service
-│   │               │       ├── ClinicTypeServiceHandler.java
-│   │               │       └── ClinicTypeService.java
-│   │               ├── nephrologist
-│   │               │   ├── controller
-│   │               │   │   └── NephrologistController.java
-│   │               │   ├── model
-│   │               │   │   └── Nephrologist.java
-│   │               │   ├── repository
-│   │               │   │   └── NephrologistRepository.java
-│   │               │   └── service
-│   │               │       ├── NephrologistServiceHandler.java
-│   │               │       └── NephrologistService.java
-│   │               ├── nephrologistBaseClinic
-│   │               │   ├── controller
-│   │               │   │   └── NephrologistBaseClinicController.java
-│   │               │   ├── model
-│   │               │   │   └── NephrologistBaseClinic.java
-│   │               │   ├── repository
-│   │               │   │   └── NephrologistBaseClinicRepository.java
-│   │               │   └── service
-│   │               │       ├── NephrologistBaseClinicServiceHandler.java
-│   │               │       └── NephrologistBaseClinicService.java
-│   │               ├── nephrologistType
-│   │               │   ├── controller
-│   │               │   │   └── NephrologistTypeController.java
-│   │               │   ├── model
-│   │               │   │   └── NephrologistType.java
-│   │               │   ├── repository
-│   │               │   │   └── NephrologistTypeRepository.java
-│   │               │   └── service
-│   │               │       ├── NephrologistTypeServiceHandler.java
-│   │               │       └── NephrologistTypeService.java
-│   │               ├── user
-│   │               │   ├── controller
-│   │               │   │   └── UserController.java
-│   │               │   ├── model
-│   │               │   │   └── User.java
-│   │               │   ├── repository
-│   │               │   │   └── UserRepository.java
-│   │               │   └── service
-│   │               │       ├── UserServiceHandler.java
-│   │               │       └── UserService.java
-│   │               └── zone
-│   │                   ├── controller
-│   │                   │   └── ZoneController.java
-│   │                   ├── model
-│   │                   │   └── Zone.java
-│   │                   ├── repository
-│   │                   │   └── ZoneRepository.java
-│   │                   └── service
-│   │                       ├── ZoneServiceHandler.java
-│   │                       └── ZoneService.java
+│   │       └── challenge
+│   │           ├── api
+│   │           │   └── commons
+│   │           │       ├── BaseConnector.java
+│   │           │       ├── Constants.java
+│   │           │       ├── ControllerBase.java
+│   │           │       ├── Messages.java
+│   │           │       ├── ResponseBase.java
+│   │           │       └── ServiceBase.java
+│   │           ├── ChallengeApplication.java
+│   │           ├── children
+│   │           │   ├── model
+│   │           │   │   └── Children.java
+│   │           │   ├── repository
+│   │           │   │   └── ChildrenRepository.java
+│   │           │   └── service
+│   │           │       ├── ChildrenServiceHandler.java
+│   │           │       └── ChildrenService.java
+│   │           └── item
+│   │               ├── controller
+│   │               │   └── ItemController.java
+│   │               ├── model
+│   │               │   ├── ItemBase.java
+│   │               │   └── Item.java
+│   │               ├── repository
+│   │               │   └── ItemRepository.java
+│   │               └── service
+│   │                   ├── ItemServiceHandler.java
+│   │                   └── ItemService.java
 │   └── resources
 │       ├── application.integration.properties
 │       └── application.properties
 └── test
     └── java
         └── com
-            └── cafeto
-                └── challenge
-                    ├── GlobalTest.java
-                    ├── helper
-                    │   ├── CafetoMockBase.java
-                    │   ├── CleanUpTest.java
-                    │   ├── HttpMockMvcComponent.java
-                    │   └── PerformMockMvcComponent.java
-                    └── modularTest
-                        ├── CityTest.java
-                        ├── ClinicTest.java
-                        ├── ClinicTypeTest.java
-                        ├── NephrologistBaseClinicTest.java
-                        ├── NephrologistTest.java
-                        ├── NephrologistTypeTest.java
-                        ├── UserTest.java
-                        └── ZoneTest.java
+            └── challenge
+                ├── GlobalTest.java
+                ├── helper
+                │   ├── ChallengeMockBase.java
+                │   ├── CleanUpTest.java
+                │   ├── HttpMockMvcComponent.java
+                │   └── PerformMockMvcComponent.java
+                └── modularTest
+                    └── ItemTest.java
 
-61 directories, 73 files
+22 directories, 25 files
+
 ```
 
 ## Services URL
