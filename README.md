@@ -18,7 +18,7 @@ Debe responder la informacion unificada consultando a las siguientes APIs:
    Descripcion: Informacion de los items hijos
 
 ## Data Base Design
-![](https://github.com/cafetochallengeusr09/nephrologists-back/blob/master/docs/img/1.png)
+![](https://github.com/jamserv/ml-challenge/blob/master/docs/img/1.png)
 
 ## Database Connection
 
