@@ -208,4 +208,4 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 See all services URI in [SWAGGER](http://localhost:9595/api-docs/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/)
 
 ## Cover Analysis
-![](https://github.com/cafetochallengeusr09/nephrologists-back/blob/master/docs/img/3.png)
+![](https://github.com/jamserv/ml-challenge/blob/master/docs/img/3.png)
