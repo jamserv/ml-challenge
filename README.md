@@ -210,10 +210,7 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 ## Services URL
-See all services URI in [SWAGGER](http://localhost:8080/api-docs/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/)
-
-## Sample of API Resquest
-See all samples of API Resquest in [POSTMAN RESTFUL API](https://cafetochallengejanezmejias.postman.co/collections/9842273-4179836b-0b12-4e5d-bdd6-4e4534461af6?version=latest&workspace=9104109b-e29c-4017-8fd1-be9156b1e1aa#40e4a4b5-28a3-42e8-899e-252dbbb5acf4)
+See all services URI in [SWAGGER](http://localhost:9595/api-docs/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/)
 
 ## Cover Analysis
 ![](https://github.com/cafetochallengeusr09/nephrologists-back/blob/master/docs/img/3.png)
