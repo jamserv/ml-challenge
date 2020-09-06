@@ -10,12 +10,12 @@ CREATE TABLE ml.childen (
 ) engine=InnoDB;
     
 CREATE TABLE ml.item (
-	item_id VARCHAR(255) not null,
+	item_id VARCHAR(255) NOT NULL,
+	title VARCHAR(255),
 	category_id VARCHAR(255),
 	price DECIMAL(19,2),
 	start_time DATETIME,
 	stop_time DATETIME,
-	title VARCHAR(255),
 	primary key (item_id)
 ) engine=InnoDB;
     
