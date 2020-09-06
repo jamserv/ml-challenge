@@ -6,20 +6,19 @@
 
 Se pide construir una API (Java Groovi / Go) que cumpla con los siguientes requerimientos:
 
-## Entities Detail
-* User [Login, Password, Name, Email]
-> Encrypted password
-* Nephrologist [Id, Name, Nephrologist Type, Email, Active]
-> A Nephrologist may be assigned to more than one base clinic
-* Nephrologist Type [Id, Description]
-* Clinic [Id, Name, Administrator, Email, Director, City, Capacity, Clinic Type]
-* Nephrologist Base Clinic [Id, Nephrologist, Clinic, Salary, Dedication Hours]
-* Clinic Type [Id, Description]
-* City [Id, Description, Zone]
-* Zone [Id, Description]
+#### Request que debe responder:
+```batch
+➜  ~ curl -X GET 'http://localhost:9595/items/$ITEM_ID'
+```
+#### Respuesta
+Debe responder la informacion unificada consultando a las siguientes APIs:
+1. Api: https://api.mercadolibre.com/items/$ITEM_ID
+   Descripcion: Informacion del Item
+2. Api: https://api.mercadolibre.com/items/$ITEM_ID/children
+   Descripcion: Informacion de los items hijos
 
 ## Data Base Design
-![](https://github.com/cafetochallengeusr09/nephrologists-back/blob/master/docs/img/1.png)
+![](https://github.com/jamserv/ml-challenge/blob/master/docs/img/1.png)
 
 ## Database Connection
 
@@ -44,6 +43,33 @@ spring.datasource.password=Benqgforce*09-
 ## Run
 ### Pre-Conditions
 * Run script locate in **sql/CREATE TABLES.sql**
+```batch
+DROP TABLE IF EXISTS ml.childen;
+    
+DROP TABLE IF EXISTS ml.item;
+    
+CREATE TABLE ml.childen (
+	item_id VARCHAR(255) NOT NULL,
+	stop_time DATETIME,
+	item VARCHAR(255),
+	primary key (item_id)
+) engine=InnoDB;
+    
+CREATE TABLE ml.item (
+	item_id VARCHAR(255) NOT NULL,
+	title VARCHAR(255),
+	category_id VARCHAR(255),
+	price DECIMAL(19,2),
+	start_time DATETIME,
+	stop_time DATETIME,
+	primary key (item_id)
+) engine=InnoDB;
+    
+ALTER TABLE ml.childen 
+	ADD constraint 
+	foreign key (item) 
+	references item (item_id);
+```
 
 ### Run Server
 ```batch
