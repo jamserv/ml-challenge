@@ -79,7 +79,7 @@ mvn spring-boot:run
 ```batch
 mvn surefire:test -Dtest=GlobalTest
 ```
-![](https://github.com/cafetochallengeusr09/nephrologists-back/blob/master/docs/img/2.png)
+![](https://github.com/jamserv/ml-challenge/blob/master/docs/img/2.png)
 
 ## Logs
 ```shell
