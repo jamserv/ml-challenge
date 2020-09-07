@@ -1,6 +1,5 @@
 package com.challenge.api.commons;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -11,16 +10,8 @@ import java.util.Optional;
  */
 public interface ServiceBase<T> {
 
-    List<T> findAll() throws Exception;
-
-    Optional<T> findById(String id) throws Exception;
+    Optional<T> findById(String id) throws ChallengeException;
 
     T save(T model) throws Exception;
-
-    Boolean existsById(String id) throws Exception;
-
-    Long count() throws Exception;
-
-    void deleteById(String id) throws Exception;
 
 }

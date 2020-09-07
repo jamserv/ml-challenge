@@ -14,5 +14,7 @@ public class Constants {
     public static final String HTTP_POST = "/create";
     public static final String HTTP_PUT = "/update";
     public static final String HTTP_DELETE = "/delete";
+    
+    public static final String URI_HEALTH = "/health";
 
 }
