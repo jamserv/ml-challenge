@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author janezmejias.09
+ * @version V1
+ * @see <https://api.mercadolibre.com/items/MLU460998489>
+ */
 @Component
 public class HealthHandler {
 
@@ -50,15 +55,12 @@ public class HealthHandler {
     }
 
     public void registerWithCode(Integer errorCode) {
-        if (mapInfRequest.containsKey(errorCode)) {
-            mapInfRequest.get(errorCode).increment(1.0);
-        } else {
+        if (!mapInfRequest.containsKey(errorCode)) {
             mapInfRequest.put(errorCode, Counter.builder("with_code_" + errorCode)
                     .tag("with_code_" + errorCode, "0")
                     .register(meterRegistry));
-            mapInfRequest.get(errorCode).increment(1.0);
         }
-
+        mapInfRequest.get(errorCode).increment(1.0);
     }
 
     public void registerExternalCall(Long time) {

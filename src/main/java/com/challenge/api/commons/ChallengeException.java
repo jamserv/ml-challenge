@@ -4,8 +4,9 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- *
- * @author janez
+ * @author janezmejias.09
+ * @version V1
+ * @see <https://api.mercadolibre.com/items/MLU460998489>
  */
 @Data
 @Builder

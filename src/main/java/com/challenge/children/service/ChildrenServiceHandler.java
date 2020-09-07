@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * @author janezmejias.09
+ * @version V1
+ * @see <https://api.mercadolibre.com/items/MLU460998489>
+ */
 @Service
 @Lazy
 public class ChildrenServiceHandler implements ChildrenService {

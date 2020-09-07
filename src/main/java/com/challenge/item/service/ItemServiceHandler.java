@@ -1,7 +1,7 @@
 package com.challenge.item.service;
 
-import com.challenge.api.commons.BaseConnector;
 import com.challenge.api.commons.ChallengeException;
+import com.challenge.api.commons.MercadolibreService;
 import com.challenge.children.model.Children;
 import com.challenge.children.repository.ChildrenRepository;
 import com.challenge.health.component.HealthHandler;
@@ -9,34 +9,37 @@ import com.challenge.item.model.Item;
 import com.challenge.item.model.ItemBase;
 import com.challenge.item.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestOperations;
 
 import java.util.*;
-import org.springframework.web.client.HttpClientErrorException;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Service
 @Lazy
-public class ItemServiceHandler extends BaseConnector implements ItemService {
+public class ItemServiceHandler implements ItemService {
 
     @Autowired
     private ItemRepository repository;
+
     @Autowired
     private ChildrenRepository childrenRepository;
+
     @Autowired
     HealthHandler healthServiceHandler;
-    private final RestOperations restOperations;
 
-    @Value("${ml.api.host}")
-    private String apiHost;
+    private final Retrofit retrofit;
+    private final MercadolibreService mercadolibreService;
 
-    public ItemServiceHandler(RestTemplateBuilder restApiBuilder) {
-        this.restOperations = restApiBuilder.build();
+    public ItemServiceHandler() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.mercadolibre.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        mercadolibreService = retrofit.create(MercadolibreService.class);
     }
 
     @Transactional
@@ -48,46 +51,47 @@ public class ItemServiceHandler extends BaseConnector implements ItemService {
                 item.get().setChildren(childrenRepository.findByItem(item.get()));
                 return Optional.ofNullable(item.orElseGet(Item::new));
             } else {
-                String url = apiHost + "/" + id;
-                Long time = System.currentTimeMillis();
-                ResponseEntity<ItemBase> itemResponseEntity = this.restOperations.getForEntity(url, ItemBase.class);
-                callExternalApi(time);
-
-                ItemBase itemRequest = itemResponseEntity.getBody();
-                Item itemRemote = ItemBase.buildItem(itemRequest);
-                save(itemRemote);
-
-                url = apiHost + "/" + id + "/children";
-                time = System.currentTimeMillis();
-                ResponseEntity<ItemBase[]> childrens = this.restOperations.getForEntity(url, ItemBase[].class);
-                callExternalApi(time);
-                List<Children> childrenCollection = new ArrayList<>();
-
-                for (ItemBase itemBase : childrens.getBody()) {
-                    Children children = ItemBase.buildItemChildren(itemBase);
-                    children.setItem(itemRemote);
-                    childrenCollection.add(children);
-
-                    childrenRepository.save(children);
-                }
-                itemRemote.setChildren(childrenCollection);
-
-                Optional<Item> optional = Optional.ofNullable(itemRemote);
-                return Optional.ofNullable(optional.orElseGet(Item::new));
+                return callExternalApi(id);
             }
-        } catch (HttpClientErrorException e) {            
-            throw ChallengeException.builder()
-                    .message(e.getLocalizedMessage())
-                    .status_code(e.getRawStatusCode())
-                    .build();
         } catch (Exception e) {
             Long time = System.currentTimeMillis();
-            callExternalApi(time);
+            registerCall(time);
             throw ChallengeException.builder()
-                    .message(e.getLocalizedMessage())
+                    .message("Sorry, item not found")
                     .status_code(500)
                     .build();
         }
+    }
+
+    private Optional<Item> callExternalApi(String id) throws Exception {
+        Long time = System.currentTimeMillis();
+
+        Call<ItemBase> callItem = mercadolibreService.findItemById(id);
+        ItemBase itemRequest = callItem.execute().body();
+        registerCall(time);
+
+        Item itemRemote = ItemBase.buildItem(itemRequest);
+        save(itemRemote);
+
+        time = System.currentTimeMillis();
+        Call<List<ItemBase>> callChidrens = mercadolibreService.findChildrenItemByParentId(id);
+        List<ItemBase> childrens = callChidrens.execute().body();
+        registerCall(time);
+        List<Children> childrenCollection = new ArrayList<>();
+
+        childrens.stream().map((itemBase) -> ItemBase.buildItemChildren(itemBase)).map((children) -> {
+            children.setItem(itemRemote);
+            return children;
+        }).map((children) -> {
+            childrenCollection.add(children);
+            return children;
+        }).forEachOrdered((children) -> {
+            childrenRepository.save(children);
+        });
+        itemRemote.setChildren(childrenCollection);
+
+        Optional<Item> optional = Optional.ofNullable(itemRemote);
+        return Optional.ofNullable(optional.orElseGet(Item::new));
     }
 
     @Override
@@ -95,12 +99,8 @@ public class ItemServiceHandler extends BaseConnector implements ItemService {
         return repository.save(model);
     }
 
-    private void callExternalApi(Long time) {
+    private void registerCall(Long time) {
         healthServiceHandler.registerExternalCall(time);
     }
 
-    @Override
-    protected RestOperations getRestOperations() {
-        return this.restOperations;
-    }
 }

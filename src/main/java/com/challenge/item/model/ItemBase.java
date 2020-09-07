@@ -12,7 +12,7 @@ import java.util.List;
 public class ItemBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     private String item_id;
     private String title;
     private String category_id;

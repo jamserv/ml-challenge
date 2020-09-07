@@ -10,6 +10,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+/**
+ * @author janezmejias.09
+ * @version V1
+ * @see <https://api.mercadolibre.com/items/MLU460998489>
+ */
 @Entity
 @Table(name = "childen")
 @Data

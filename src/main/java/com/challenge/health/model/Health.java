@@ -7,6 +7,11 @@ import java.sql.Timestamp;
 import java.util.List;
 import lombok.Builder;
 
+/**
+ * @author janezmejias.09
+ * @version V1
+ * @see <https://api.mercadolibre.com/items/MLU460998489>
+ */
 @Data
 @Builder
 public class Health implements Serializable {
