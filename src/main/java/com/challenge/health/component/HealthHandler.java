@@ -17,11 +17,9 @@ public class HealthHandler {
     private final MeterRegistry meterRegistry;
     private Counter count_total_count_api_calls;
     private Counter count_total_request;
-    private Counter count_error;
 
     private List<Long> avg_response_time;
     private List<Long> avg_response_time_api_calls;
-    private List<InfoRequest> infoRequests;
     private Map<Integer, Counter> mapInfRequest;
 
     public HealthHandler(MeterRegistry meterRegistry) {
@@ -40,28 +38,25 @@ public class HealthHandler {
 
         avg_response_time = new ArrayList<>();
         avg_response_time_api_calls = new ArrayList<>();
-        infoRequests = new ArrayList<>();
         mapInfRequest = new HashMap<>();
-
-        count_error = Counter.builder("count_error")
-                .tag("count_error", "0")
-                .register(meterRegistry);
     }
 
-    public void register(Long time) {
+    public void register(Long time, Integer code) {
         Long total = (System.currentTimeMillis() - time) / 1000;
         avg_response_time.add(total);
 
         count_total_request.increment(1.0);
+        registerWithCode(code);
     }
 
-    public void registerError(Integer errorCode) {
+    public void registerWithCode(Integer errorCode) {
         if (mapInfRequest.containsKey(errorCode)) {
             mapInfRequest.get(errorCode).increment(1.0);
         } else {
-            mapInfRequest.put(errorCode, Counter.builder("count_error")
-                    .tag("count_error", "0")
+            mapInfRequest.put(errorCode, Counter.builder("with_code_" + errorCode)
+                    .tag("with_code_" + errorCode, "0")
                     .register(meterRegistry));
+            mapInfRequest.get(errorCode).increment(1.0);
         }
 
     }
@@ -78,27 +73,46 @@ public class HealthHandler {
                 .date(new Timestamp(System.currentTimeMillis()))
                 .total_request((long) count_total_request.count())
                 .total_count_api_calls((long) count_total_count_api_calls.count())
-                .avg_response_time(totalAvgResponseTime())
-                .avg_response_time_api_calls(totalAvgResponseTimeApiCalls())
+                .avg_response_time(buildTotalAvgResponseTime())
+                .avg_response_time_api_calls(buildTotalAvgResponseTimeApiCalls())
+                .info_requests(buildInfoRequest())
                 .build();
     }
 
-    private Long totalAvgResponseTime() {
-        Long time = 0L;
-        for (Long ttime : avg_response_time) {
-            time += ttime;
+    private Long buildTotalAvgResponseTime() {
+        if (avg_response_time.isEmpty()) {
+            return 0L;
         }
+        Long time = 0L;
+        time = avg_response_time.stream().map((ttime) -> ttime).reduce(time, (accumulator, _item) -> accumulator + _item);
 
         return (time / avg_response_time.size());
     }
 
-    private Long totalAvgResponseTimeApiCalls() {
-        Long time = 0L;
-        for (Long ttime : avg_response_time_api_calls) {
-            time += ttime;
+    private Long buildTotalAvgResponseTimeApiCalls() {
+        if (avg_response_time_api_calls.isEmpty()) {
+            return 0L;
         }
+        Long time = 0L;
+        time = avg_response_time_api_calls.stream().map((ttime) -> ttime).reduce(time, (accumulator, _item) -> accumulator + _item);
 
         return (time / avg_response_time_api_calls.size());
+    }
+
+    private List<InfoRequest> buildInfoRequest() {
+        List<InfoRequest> requests = new ArrayList<>();
+        mapInfRequest.entrySet().stream().map((entry) -> {
+            Integer key = entry.getKey();
+            Counter value = entry.getValue();
+            InfoRequest infoRequest = InfoRequest.builder()
+                    .status_code(key)
+                    .count((int) value.count())
+                    .build();
+            return infoRequest;
+        }).forEachOrdered((infoRequest) -> {
+            requests.add(infoRequest);
+        });
+        return requests;
     }
 
 }

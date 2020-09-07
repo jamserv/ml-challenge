@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 
 /**
  * @author janezmejias.09
@@ -28,15 +29,15 @@ public abstract class ControllerBase<T> {
     @GetMapping(Constants.HTTP_GET_ONE)
     @ResponseBody
     Object getById(@PathVariable("id") String id) throws Exception {
+        Long time = System.currentTimeMillis();
         try {
-            Long time = System.currentTimeMillis();
-            log.info("GET ITEM FROM -> {} WITH ID={}", service.getClass().getCanonicalName(), id);
+            log.info("GET ITEM FROM -> {} WITH ID={}", service.getClass().getCanonicalName(), id);            
             Optional<T> response = service.findById(id);
-            healthServiceHandler.register(time);
+            healthServiceHandler.register(time, HttpStatus.OK.value());
             return response.get();
-        } catch (ChallengeException e) {            
-            log.error(e.getLocalizedMessage(), e);
-            healthServiceHandler.registerError(e.getStatus_code());
+        } catch (ChallengeException e) {
+            log.error(e.getLocalizedMessage(), e);            
+            healthServiceHandler.register(time, e.getStatus_code());
             return ResponseBase.buildErrorResponse(e.getLocalizedMessage());
         }
     }

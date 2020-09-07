@@ -1,5 +1,6 @@
 package com.challenge.children.service;
 
+import com.challenge.api.commons.ChallengeException;
 import com.challenge.children.model.Children;
 import com.challenge.children.repository.ChildrenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ChildrenServiceHandler implements ChildrenService {
     }
 
     @Override
-    public Children save(Children model) throws Exception {
+    public Children save(Children model) throws ChallengeException {
         return repository.save(model);
     }
 

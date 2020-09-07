@@ -75,12 +75,14 @@ public class ItemServiceHandler extends BaseConnector implements ItemService {
                 Optional<Item> optional = Optional.ofNullable(itemRemote);
                 return Optional.ofNullable(optional.orElseGet(Item::new));
             }
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException e) {            
             throw ChallengeException.builder()
                     .message(e.getLocalizedMessage())
                     .status_code(e.getRawStatusCode())
                     .build();
         } catch (Exception e) {
+            Long time = System.currentTimeMillis();
+            callExternalApi(time);
             throw ChallengeException.builder()
                     .message(e.getLocalizedMessage())
                     .status_code(500)

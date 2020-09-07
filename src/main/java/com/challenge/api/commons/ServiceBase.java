@@ -12,6 +12,6 @@ public interface ServiceBase<T> {
 
     Optional<T> findById(String id) throws ChallengeException;
 
-    T save(T model) throws Exception;
+    T save(T model) throws ChallengeException;
 
 }
