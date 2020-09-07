@@ -25,7 +25,7 @@ public class ItemServiceHandler extends BaseConnector implements ItemService {
     private ItemRepository repository;
     @Autowired
     private ChildrenRepository childrenRepository;
-    private RestOperations restOperations;
+    private final RestOperations restOperations;
 
     @Value("${ml.api.host}")
     private String apiHost;
@@ -57,7 +57,7 @@ public class ItemServiceHandler extends BaseConnector implements ItemService {
             url = apiHost + "/" + id + "/children";
             ResponseEntity<ItemBase[]> childrens = this.restOperations.getForEntity(url, ItemBase[].class);
             List<Children> childrenCollection = new ArrayList<>();
-
+            
             for (ItemBase itemBase : childrens.getBody()) {
                 Children children = ItemBase.buildItemChildren(itemBase);
                 children.setItem(itemRemote);

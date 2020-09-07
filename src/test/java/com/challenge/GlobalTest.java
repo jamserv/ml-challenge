@@ -14,8 +14,8 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(
         locations = "classpath:application.integration.properties")
 @Suite.SuiteClasses({
-        CleanUpTest.class,
-        ItemTest.class
+    CleanUpTest.class,
+    ItemTest.class
 })
 public class GlobalTest {
 }

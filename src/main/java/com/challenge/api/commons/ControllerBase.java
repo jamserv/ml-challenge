@@ -10,6 +10,7 @@ import java.util.Optional;
 /**
  * @author janezmejias.09
  * @version V1
+ * @param <T>
  * @see <https://api.mercadolibre.com/items/MLU460998489>
  */
 @Slf4j
