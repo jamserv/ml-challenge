@@ -19,30 +19,6 @@ Debe responder la informacion unificada consultando a las siguientes APIs:
 
 ## Data Base Design
 ![](https://github.com/jamserv/ml-challenge/blob/master/docs/img/1.png)
-
-## Database Connection
-
-### Dev Environment
-* Please open file **application.integration.properties** locate in **/src/main/resources**
-* Edit the next values:
-```batch
-spring.datasource.url=jdbc:mysql://192.168.2.12:3306/ml?useSSL=true
-spring.datasource.username=root
-spring.datasource.password=Benqgforce*09-
-```
-
-### Live Environment
-* Please open file **application.properties** locate in **/src/main/resources**
-* Edit the next values:
-```batch
-spring.datasource.url=jdbc:mysql://192.168.2.12:3306/ml?useSSL=true
-spring.datasource.username=root
-spring.datasource.password=Benqgforce*09-
-```
-
-## Run
-### Pre-Conditions
-* Run script locate in **sql/CREATE TABLES.sql**
 ```batch
 DROP TABLE IF EXISTS ml.childen;
     
@@ -71,7 +47,29 @@ ALTER TABLE ml.childen
 	references item (item_id);
 ```
 
-### Run Server
+## Database Connection
+
+### Dev Environment
+* Please open file **application.integration.properties** locate in **/src/main/resources**
+* Edit the next values:
+```batch
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/ml?useSSL=true
+spring.datasource.username=janezmejias
+spring.datasource.password=Usradm9984-*
+```
+
+### Live Environment
+* Please open file **application.properties** locate in **/src/main/resources**
+* Edit the next values:
+```batch
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/ml?useSSL=true
+spring.datasource.username=janezmejias
+spring.datasource.password=Usradm9984-*
+```
+
+## Run
+
+### Run Server (local-dev)
 ```batch
 mvn spring-boot:run
 ```
