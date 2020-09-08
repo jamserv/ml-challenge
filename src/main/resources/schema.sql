@@ -1,3 +1,7 @@
+/**
+ * Author:  janez
+ * Created: Sep 7, 2020
+ */
 DROP TABLE IF EXISTS ml.childen;
     
 DROP TABLE IF EXISTS ml.item;
@@ -23,4 +27,5 @@ ALTER TABLE ml.childen
 	ADD constraint 
 	foreign key (item) 
 	references item (item_id);
+
 
