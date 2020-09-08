@@ -75,15 +75,6 @@ mvn spring-boot:run
 ```
 
 ### Run Server - With Docker
-1. To generate image
-```batch
-docker build -t mlchallenge . 
-```
-2. Run
-```batch
-docker run -it mlchallenge:latest /bin/bash
-```
-3. Docker hub
 ```batch
 $ docker pull janezmejias09/mlchallenge:1.0
 $ docker run -it janezmejias09/mlchallenge:1.0 /bin/bash/
