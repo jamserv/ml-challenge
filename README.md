@@ -76,6 +76,16 @@ ALTER TABLE ml.childen
 mvn spring-boot:run
 ```
 
+### Run Server - With Docker
+1. To generate image
+```batch
+docker build -t mlchallenge . 
+```
+2. Run
+```batch
+docker run -it mlchallenge:latest /bin/bash
+```
+
 ### Reponse JSON
 ```batch
 ➜  ~ curl -X GET 'http://localhost:9595/items/MLU460998489'
