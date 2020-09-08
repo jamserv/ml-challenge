@@ -83,6 +83,10 @@ docker build -t mlchallenge .
 ```batch
 docker run -it mlchallenge:latest /bin/bash
 ```
+3. Docker hub
+```batch
+docker push janezmejias09/mlchallenge:1.0
+```
 
 ### Reponse JSON
 ```batch
