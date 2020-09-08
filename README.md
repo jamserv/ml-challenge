@@ -85,7 +85,8 @@ docker run -it mlchallenge:latest /bin/bash
 ```
 3. Docker hub
 ```batch
-docker pull janezmejias09/mlchallenge:1.0
+$ docker pull janezmejias09/mlchallenge:1.0
+$ docker run -it janezmejias09/mlchallenge:1.0 /bin/bash/
 ```
 
 ### Reponse JSON
